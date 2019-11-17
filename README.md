@@ -1,2 +1,2 @@
 # daxionga.github.io
-My blog use pelican+github
+My blog by pelican+github
