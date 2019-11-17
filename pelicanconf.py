@@ -26,7 +26,7 @@ LINKS = (('Pelican', 'http://getpelican.com/'),
          ('Jinja2', 'http://jinja.pocoo.org/'),)
 
 # Social widget
-SOCIAL = (('github', 'http://daxionga.github.com'),)
+SOCIAL = (('github', 'http://github.com/daxionga/'),)
 
 DEFAULT_PAGINATION = 10
 
