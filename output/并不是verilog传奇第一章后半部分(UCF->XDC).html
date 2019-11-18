@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en" itemscope itemtype="http://schema.org/Person">
+<head>
+  <meta charset="utf-8">
+  <!-- Site Meta Data -->
+  <title>理论上Verilog传奇第一章后半部分</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="rcjiang">
+
+  <link rel="shortcut icon" href="">
+
+  <!-- schema.org -->
+  <meta itemprop="name" content="JRC's blog">
+  <meta itemprop="image" content="">
+  <meta itemprop="description" content="">
+
+  <!-- Style Meta Data -->
+  <link rel="stylesheet" href="/theme/css/milligram.css" type="text/css" />
+  <link rel="stylesheet" href="/theme/css/custom.css" type="text/css" />
+
+  <!-- Feed Meta Data -->
+
+  <!-- Twitter Feed -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:site" content="">
+  <meta name="twitter:image" content="">
+
+<meta name="twitter:creator" content="">
+<meta name="twitter:url" content="/并不是verilog传奇第一章后半部分(UCF->XDC).html">
+<meta name="twitter:title" content="JRC's blog ~ 理论上Verilog传奇第一章后半部分">
+<meta name="twitter:description" content="本blog讲的是verilog约束文件">
+
+<!-- Facebook Meta Data -->
+<meta property="og:title" content="JRC's blog ~ 理论上Verilog传奇第一章后半部分" />
+<meta property="og:description" content="本blog讲的是verilog约束文件" />
+<meta property="og:image" content="" />
+</head>
+
+<body>
+    <div class="container">
+
+    <!-- Navbar -->
+      <div class="navbar">
+        <ul>
+            <div>
+                <li>
+                    <a href=""><h3>JRC's blog</h3></a>
+                </li>
+                <li>
+                </li>
+            </div>
+        </ul>
+      </div>
+
+  <!-- Sidebar -->
+    <sidebar>
+        <ul class="static-item">
+                <li><a href="http://github.com">github</a></li>
+
+        </ul>        
+
+        <ul>
+                <div class="cat-border">
+                <li style="color: #F2F1EF; background-color: #6C7A89;">Categories</li>
+                    <li><a href="/category/misc.html">misc</a></li>
+                    <li><a href="/category/verilogchuan-qi.html">Verilog传奇</a></li>
+                    <li><a href="/category/vivado.html">vivado</a></li>
+                </div>
+        </ul>
+
+            <h2><br/>BLOGROLLS</h2>
+            <ul>
+                    <li><a href="http://getpelican.com/">Pelican</a></li>
+                    <li><a href="http://python.org/">Python.org</a></li>
+                    <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+            </ul> 
+   
+        <p> 
+                <span>
+                    <a href="http://github.com/daxionga/" target="_blank">
+                        <img class="social-icons-m" src="/theme/images/icons/github.png">
+                    </a>
+                </span>
+        </p>
+        <p>
+        </p>
+        <p>
+        </p>
+    </sidebar>
+    
+    <maincontent>
+<h2>
+    <a href="/并不是verilog传奇第一章后半部分(UCF->XDC).html" rel="bookmark" title="Permalink to 理论上Verilog传奇第一章后半部分">理论上Verilog传奇第一章后半部分</a>
+</h2>
+
+<div>
+    <b>By: </b><a href="/author/rcjiang.html">rcjiang</a><b>    On: </b>一 18 十一月 2019<br />
+    <b>In: </b><a href="/category/vivado.html" rel="bookmark" title="Permalink to vivado">vivado</a><br />
+    <em><b>Tags: </b>
+                <span><a href="/tag/verilog.html">#verilog </a></span>
+                <span><a href="/tag/vivadoyue-shu-wen-jian.html">#vivado约束文件 </a></span>
+    </em>
+    <hr>
+</div>
+
+<div>
+    <mainarticle>
+    <h3>并不是verilog传奇第一章后半部分(UCF-&gt;XDC)</h3>
+<h3>我这个初学者关于Xilinx的IDE及其约束文件的区别</h3>
+<p>&emsp;&emsp;首先Xilinx公司是个优秀的公司，尤其他们公司的论坛，简直是高端客服，不管你在论坛上提什么搞笑的问题，都会有人及时解答，给我的感觉像是这帮人轮班倒，24小时给你解答问题。<strong>但是</strong>，他们这个IDE给我的感觉就是，公司本来有一个挺好的团队开发IDE，并且把IDE起名叫做ISE，然后过了段时间，出了几款新的FPGA，但这个时候呢，可能是开发ISE的团队人员离开了，也可能他们在忙别的项目，没法在原来的IDE里加入新的FPGA的综合和实现工具了😂，么得办法，为了这新款的FPGA，就只能再开发一款IDE叫做VIVADO，而且这东西和前面的ISE在约束文件的写法不兼容，于是开发vivado的大哥找来了当年开发ISE的二哥，大哥和二哥在一起商讨了几天留下了几页。于是乎就有了这个<a href="https://www.xilinx.com/support/documentation/sw_manuals/xilinx2019_1/ug911-vivado-migration.pdf">转换文档</a>。而且大哥发现自己的约束文件需要的语法越来越丰富，所以每年都会去找二哥商讨几天，就这样这个文档每年几乎都会更新。<br>
+&emsp;&emsp;光有这个文档是不够的，还是会有一些零碎的小问题。有几个注意事项需要明确的说明，首先一般而言,在ISE中这样写就算把LED放在A18引脚就行了</p>
+<div class="highlight"><pre><span></span><span class="no">NET</span> <span class="s">&quot;led[0]&quot;</span> <span class="no">LOC</span> <span class="o">=</span> <span class="s">&quot;A18&quot;</span><span class="p">;</span>
+</pre></div>
+
+
+<p>在VIVADO中需要写两行(这个两行才能通过综合也可能是因为我在vivado上用的是ZYNQ，而上面用的是spartan6)</p>
+<div class="highlight"><pre><span></span><span class="n">set_property</span> <span class="no">PACKAGEPACKAGE_PIN</span> <span class="no">A18</span> <span class="p">[</span><span class="n">get_ports</span> <span class="p">{(</span><span class="n">led</span><span class="p">[</span><span class="mh">0</span><span class="p">])}]</span>
+<span class="n">set_property</span> <span class="no">IOSTANDARD</span> <span class="no">LVCMOSXX</span> <span class="p">[</span><span class="n">get_ports</span> <span class="p">{</span><span class="n">led</span><span class="p">[</span><span class="mh">0</span><span class="p">]}]</span>
+<span class="p">#</span><span class="err">上面那行的</span><span class="no">LVCMOSXX的XX在下面会介绍</span><span class="err">，算了有时间再介绍吧，有点困，那个还要上传图片很麻烦的。</span>  
+</pre></div>
+
+
+<p>接着说说还有什么区别，暂时突然想不起来的，满脑子都是熬夜会猝死😂<br>
+那就说说一些共同，看起来不重要，但实际上非常重要的点吧。
+<em>首先是该空格的地方一定要空格
+</em>没有行尾注释，只能在行首注释</p>
+<div class="highlight"><pre><span></span><span class="p">#</span><span class="err">这样是对的</span>
+<span class="no">NET</span> <span class="s">&quot;led[0]&quot;</span> <span class="no">LOC</span> <span class="o">=</span> <span class="s">&quot;A18&quot;</span><span class="p">;#</span><span class="err">这样是错的</span>
+</pre></div>
+
+
+<p>然后目前我先写这些吧，一来是有点困，二来还是有点困。先把文档看一遍，其实基本上剩下的就是些零碎的小问题。</p>
+    </mainarticle>
+</div>
+<hr>
+        
+<div>
+        <i>If you found the article helpful, please share or cite the article, and spread the word:</i>
+            <p style="margin-top: 2%;">
+                <span><a target="_blank" rel="nofollow" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=400,width=700');return false;" title="Twitter" href="https://twitter.com/share?url=/并不是verilog传奇第一章后半部分(UCF->XDC).html&text=理论上Verilog传奇第一章后半部分&via="><img class="social-icons-a" src="/theme/images/icons/twitter.png"></a></span>
+                <span><a target="_blank" title="Facebook" rel="nofollow" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=500,width=700');return false;" href="https://www.facebook.com/sharer.php?u=/并不是verilog传奇第一章后半部分(UCF->XDC).html&t=理论上Verilog传奇第一章后半部分"><img class="social-icons-a" src="/theme/images/icons/facebook.png"></a></span>
+
+                <a  target="_blank" title="Linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=/并不是verilog传奇第一章后半部分(UCF->XDC).html&title=理论上Verilog传奇第一章后半部分" rel="nofollow" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450,width=650');return false;"><img class="social-icons-a" src="/theme/images/icons/linkedin.png"></a>
+            </p>
+</div>
+<hr>
+    <p><i>For any feedback or corrections, please write in to: </i><b> rcjiang </b></p>
+        
+    </maincontent>
+
+  <!-- Analytics -->
+
+  </div>
+</body>
+
+</html>
