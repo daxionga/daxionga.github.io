@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>JRC's blog - vivado</title><link href="/" rel="alternate"></link><link href="/feeds/vivado.atom.xml" rel="self"></link><id>/</id><updated>2019-11-19T00:30:00+08:00</updated><entry><title>理论上Verilog传奇第一章后半部分</title><link href="/%E5%B9%B6%E4%B8%8D%E6%98%AFverilog%E4%BC%A0%E5%A5%87%E7%AC%AC%E4%B8%80%E7%AB%A0%E5%90%8E%E5%8D%8A%E9%83%A8%E5%88%86(UCF-%3EXDC).html" rel="alternate"></link><published>2019-11-18T23:48:00+08:00</published><updated>2019-11-19T00:30:00+08:00</updated><author><name>rcjiang</name></author><id>tag:None,2019-11-18:/并不是verilog传奇第一章后半部分(UCF-&gt;XDC).html</id><summary type="html">&lt;p&gt;本blog讲的是verilog约束文件&lt;/p&gt;</summary><content type="html">&lt;h3&gt;并不是verilog传奇第一章后半部分(UCF-&amp;gt;XDC)&lt;/h3&gt;
+&lt;h3&gt;我这个初学者关于Xilinx的IDE及其约束文件的区别&lt;/h3&gt;
+&lt;p&gt;&amp;emsp;&amp;emsp;首先Xilinx公司是个优秀的公司，尤其他们公司的论坛，简直是高端客服，不管你在论坛上提什么搞笑的问题，都会有人及时解答，给我的感觉像是这帮人轮班倒，24小时给你解答问题。&lt;strong&gt;但是&lt;/strong&gt;，他们这个IDE给我的感觉就是，公司本来有一个挺好的团队开发IDE，并且把IDE起名叫做ISE，然后过了段时间，出了几款新的FPGA，但这个时候呢，可能是开发ISE的团队人员离开了，也可能他们在忙别的项目，没法在原来的IDE里加入新的FPGA的综合和实现工具了😂，么得办法，为了这新款的FPGA，就只能再开发一款IDE叫做VIVADO，而且这东西和前面的ISE在约束文件的写法不兼容，于是开发vivado的大哥找来了当年开发ISE的二哥，大哥和二哥在一起商讨了几天留下了几页。于是乎就有了这个&lt;a href="https://www.xilinx.com/support/documentation/sw_manuals/xilinx2019_1/ug911-vivado-migration.pdf"&gt;转换文档&lt;/a&gt;。而且大哥发现自己的约束文件需要的语法越来越丰富，所以每年都会去找二哥商讨几天，就这样这个文档每年几乎都会更新。&lt;br&gt;
+&amp;emsp;&amp;emsp;光有这个文档是不够的，还是会有一些零碎的小问题。有几个注意事项需要明确的说明，首先一般而言,在ISE中这样写就算把LED放在A18引脚就行了&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="no"&gt;NET&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;led[0]&amp;quot;&lt;/span&gt; &lt;span class="no"&gt;LOC&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;A18&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;在VIVADO中需要写两行(这个两行才能通过综合也可能是因为我在vivado上用的是ZYNQ，而上面用的是spartan6)&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;set_property&lt;/span&gt; &lt;span class="no"&gt;PACKAGEPACKAGE_PIN&lt;/span&gt; &lt;span class="no"&gt;A18&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;get_ports&lt;/span&gt; &lt;span class="p"&gt;{(&lt;/span&gt;&lt;span class="n"&gt;led&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mh"&gt;0&lt;/span&gt;&lt;span class="p"&gt;])}]&lt;/span&gt;
+&lt;span class="n"&gt;set_property&lt;/span&gt; &lt;span class="no"&gt;IOSTANDARD&lt;/span&gt; &lt;span class="no"&gt;LVCMOSXX&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;get_ports&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;led&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mh"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]}]&lt;/span&gt;
+&lt;span class="p"&gt;#&lt;/span&gt;&lt;span class="err"&gt;上面那行的&lt;/span&gt;&lt;span class="no"&gt;LVCMOSXX的XX在下面会介绍&lt;/span&gt;&lt;span class="err"&gt;，算了有时间再介绍吧，有点困，那个还要上传图片很麻烦的。&lt;/span&gt;  
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;接着说说还有什么区别，暂时突然想不起来的，满脑子都是熬夜会猝死😂&lt;br&gt;
+那就说说一些共同，看起来不重要，但实际上非常重要的点吧。
+&lt;em&gt;首先是该空格的地方一定要空格
+&lt;/em&gt;没有行尾注释，只能在行首注释&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;#&lt;/span&gt;&lt;span class="err"&gt;这样是对的&lt;/span&gt;
+&lt;span class="no"&gt;NET&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;led[0]&amp;quot;&lt;/span&gt; &lt;span class="no"&gt;LOC&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;A18&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;#&lt;/span&gt;&lt;span class="err"&gt;这样是错的&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;然后目前我先写这些吧，一来是有点困，二来还是有点困。先把文档看一遍，其实基本上剩下的就是些零碎的小问题。&lt;/p&gt;</content><category term="vivado"></category><category term="verilog"></category><category term="vivado约束文件"></category></entry></feed>
